@@ -127,21 +127,25 @@ class Solution:
         """ 
         [TODO] (1a) Do for every time step t_i:
         """
-        t_i = self.data.ti
-        
         """
             [TODO] (1b) Define f
         """
-        f = self.f1A
         """
             [TODO] (1c) Define g
         """
-        g = self.f2A
+        t_i = self.data.ti
+        
+        for i in range(len(t_i)):
+            f = self.f1A[:i+1]
+            g = self.f2A[i::-1]
+            tempConv = []
+            for j in range(len(f)):
+                tempConv.append(f[j]*g[j])
+            convolutionA.append(self.integrateTrapz(tempConv, t_i[:i+1]))
         """
             [TODO] (1d) Form the integrand f(tau)*g(t-tau) 
         """
-        #I = 
-
+    
         """ 
             [TODO] (1e) Integrate I over t_i[:i+1]
             
@@ -171,7 +175,18 @@ class Solution:
         """
         [TODO] (2) Implement search function here
         """
-        return    
+        lowIndex = 0
+        highIndex = len(cdf_values) - 1
+        while highIndex - lowIndex >= 0:
+            mid = (lowIndex+highIndex)/2
+            if cdf_values[mid]<target:
+                lowIndex = mid
+            else:
+                highIndex = mid
+        if abs(cdf_values[highIndex] - target) < epsilon:
+            return highIndex
+        else:
+            return lowIndex  
 
 
 
